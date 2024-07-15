@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:news_app/pages/news_tile.dart';
-import 'package:news_app/pages/tranding_card.dart';
+import 'package:news_app/component/navigationbar.dart';
+import 'package:news_app/pages/homePage/Widgets/news_tile.dart';
+import 'package:news_app/pages/homePage/Widgets/tranding_card.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
@@ -19,6 +20,7 @@ class _HomeScreenState extends State<HomeScreen> {
           style: Theme.of(context).textTheme.headlineLarge,
         ),
       ),
+      floatingActionButton: MyBottomNav(),
       body: Padding(
         padding: const EdgeInsets.all(20),
         child: SingleChildScrollView(

@@ -1,16 +1,15 @@
 import 'package:flutter/material.dart';
-import 'package:news_app/component/navigationbar.dart';
 import 'package:news_app/pages/homePage/Widgets/news_tile.dart';
 import 'package:news_app/pages/homePage/Widgets/tranding_card.dart';
 
-class HomeScreen extends StatefulWidget {
-  const HomeScreen({super.key});
+class HomePage extends StatefulWidget {
+  const HomePage({super.key});
 
   @override
-  State<HomeScreen> createState() => _HomeScreenState();
+  State<HomePage> createState() => _HomePageState();
 }
 
-class _HomeScreenState extends State<HomeScreen> {
+class _HomePageState extends State<HomePage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -20,7 +19,6 @@ class _HomeScreenState extends State<HomeScreen> {
           style: Theme.of(context).textTheme.headlineLarge,
         ),
       ),
-      floatingActionButton: MyBottomNav(),
       body: Padding(
         padding: const EdgeInsets.all(20),
         child: SingleChildScrollView(

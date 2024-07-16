@@ -55,7 +55,12 @@ class NewsTile extends StatelessWidget {
                     SizedBox(
                       width: 5,
                     ),
-                    Text('$author')
+                    Flexible(
+                      child: Text(
+                        '$author',
+                        maxLines: 2,
+                      ),
+                    )
                   ],
                 ),
                 SizedBox(

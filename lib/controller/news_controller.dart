@@ -11,11 +11,13 @@ class NewsController extends GetxController {
   RxList<NewsModel> teslaNews5 = <NewsModel>[].obs;
   RxList<NewsModel> wallStreetNews = <NewsModel>[].obs;
   RxList<NewsModel> wallStreetNews5 = <NewsModel>[].obs;
+  RxList<NewsModel> searchResults = <NewsModel>[].obs;
 
   RxBool isTrandingNewsLoading = false.obs;
   RxBool isNewsForYouLoading = false.obs;
   RxBool isTeslaNewsLoading = false.obs;
   RxBool isWallStreetLoading = false.obs;
+  RxBool isSearchLoading = false.obs;
 
   Future<void> getTrandingNews() async {
     isTrandingNewsLoading.value = true;
@@ -71,7 +73,7 @@ class NewsController extends GetxController {
   Future<void> getTeslaNews() async {
     isTeslaNewsLoading.value = true;
     var baseUrl =
-        "https://newsapi.org/v2/everything?q=tesla&from=2024-06-18&sortBy=publishedAt&apiKey=0400e94c339c496fb19c95b0110ccd31";
+        "https://newsapi.org/v2/everything?domains=wsj.com&apiKey=0400e94c339c496fb19c95b0110ccd31";
 
     var response = await http.get(Uri.parse(baseUrl));
     print('Fetching Tesla news...');
@@ -94,29 +96,50 @@ class NewsController extends GetxController {
     isTeslaNewsLoading.value = false;
   }
 
-  Future<void> getWallStreetNews() async {
-    isWallStreetLoading.value = true;
+  Future<void> searchNews(String query) async {
+    isSearchLoading.value = true;
     var baseUrl =
-        "https://newsapi.org/v2/everything?domains=wsj.com&apiKey=0400e94c339c496fb19c95b0110ccd31";
+        "https://newsapi.org/v2/everything?q=$query&apiKey=0400e94c339c496fb19c95b0110ccd31";
 
     var response = await http.get(Uri.parse(baseUrl));
-    print('Fetching Wall Street news...');
+    print('Searching news...');
     if (response.statusCode == 200) {
       var body = jsonDecode(response.body);
       var articles = body['articles'];
       if (articles != null && articles is Iterable) {
-        wallStreetNews.clear();
+        searchResults.clear();
         for (var news in articles) {
-          wallStreetNews.add(NewsModel.fromJson(news));
+          searchResults.add(NewsModel.fromJson(news));
         }
-        wallStreetNews5.value = wallStreetNews.take(5).toList();
-        print('Wall Street news fetched successfully.');
+        print('Search results: ${searchResults.length} articles found.');
       } else {
-        print('No articles found for Wall Street news.');
+        print('No articles found for the search query.');
       }
     } else {
-      print('Failed to fetch Wall Street news: ${response.body}');
+      print('Failed to fetch search results: ${response.body}');
     }
-    isWallStreetLoading.value = false;
+    isSearchLoading.value = false;
+  }
+
+  RxList<NewsModel> filteredNewsList = <NewsModel>[].obs;
+  var searchQuery = ''.obs;
+
+  @override
+  void onInit() {
+    super.onInit();
+    searchQuery.listen((query) {
+      filterNews(query);
+    });
+  }
+
+  void filterNews(String query) {
+    if (query.isEmpty) {
+      filteredNewsList.assignAll(newsForYouList);
+    } else {
+      filteredNewsList.assignAll(newsForYouList.where((news) =>
+          news.title!.toLowerCase().contains(query.toLowerCase()) ||
+          (news.author != null &&
+              news.author!.toLowerCase().contains(query.toLowerCase()))));
+    }
   }
 }

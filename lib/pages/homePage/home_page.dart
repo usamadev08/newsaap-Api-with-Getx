@@ -23,7 +23,6 @@ class _HomePageState extends State<HomePage> {
     newsController.getTrandingNews();
     newsController.getNewsForYou();
     newsController.getTeslaNews();
-    newsController.getWallStreetNews();
   }
 
   @override
@@ -140,7 +139,7 @@ class _HomePageState extends State<HomePage> {
                         ],
                       )
                     : Column(
-                        children: newsController.newsForYou5
+                        children: newsController.teslaNews5
                             .map(
                               (news) => NewsTile(
                                 ontap: () {
@@ -196,48 +195,6 @@ class _HomePageState extends State<HomePage> {
                       ),
               ),
               SizedBox(height: 20),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  Text(
-                    'Wall Street News',
-                    style: Theme.of(context).textTheme.bodyLarge,
-                  ),
-                  Text(
-                    'See All',
-                    style: Theme.of(context).textTheme.labelSmall,
-                  ),
-                ],
-              ),
-              SizedBox(height: 20),
-              Obx(
-                () => newsController.isWallStreetLoading.value
-                    ? Row(
-                        children: [
-                          Trandingshimmercard(),
-                          Trandingshimmercard(),
-                        ],
-                      )
-                    : SingleChildScrollView(
-                        scrollDirection: Axis.horizontal,
-                        child: Row(
-                          children: newsController.wallStreetNews5
-                              .map(
-                                (news) => TrandingCard(
-                                  ontap: () {
-                                    Get.to(() => NewDetailPage(news: news));
-                                  },
-                                  imageUrl: news.urlToImage ?? '',
-                                  title: news.title ?? 'No Title',
-                                  author: news.author ?? 'Unknown',
-                                  time: news.publishedAt ?? '',
-                                  tag: 'Trending',
-                                ),
-                              )
-                              .toList(),
-                        ),
-                      ),
-              ),
             ],
           ),
         ),

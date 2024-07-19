@@ -1,8 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:news_app/component/newstileShimmerCard.dart';
+import 'package:news_app/component/trandingshimmerCard.dart';
 import 'package:news_app/controller/news_controller.dart';
 import 'package:news_app/pages/homePage/Widgets/news_tile.dart';
 import 'package:news_app/pages/homePage/Widgets/tranding_card.dart';
+import 'package:news_app/pages/newsdetailPage/newsdetail_page.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({super.key});
@@ -19,6 +22,8 @@ class _HomePageState extends State<HomePage> {
     super.initState();
     newsController.getTrandingNews();
     newsController.getNewsForYou();
+    newsController.getTeslaNews();
+    newsController.getWallStreetNews();
   }
 
   @override
@@ -45,10 +50,11 @@ class _HomePageState extends State<HomePage> {
                   Text(
                     'NEWS APP',
                     style: TextStyle(
-                        fontSize: 25,
-                        fontFamily: 'Poppins',
-                        letterSpacing: 1.5,
-                        fontWeight: FontWeight.w600),
+                      fontSize: 25,
+                      fontFamily: 'Poppins',
+                      letterSpacing: 1.5,
+                      fontWeight: FontWeight.w600,
+                    ),
                   ),
                   InkWell(
                     onTap: () {
@@ -81,23 +87,32 @@ class _HomePageState extends State<HomePage> {
                 ],
               ),
               SizedBox(height: 20),
-              Obx(
-                () => SingleChildScrollView(
-                  scrollDirection: Axis.horizontal,
-                  child: Row(
-                    children: newsController.trandingNewsList
-                        .map(
-                          (news) => TrandingCard(
-                            ontap: () {},
-                            imageUrl: news.urlToImage ?? '',
-                            title: news.title ?? 'No Title',
-                            author: news.author ?? 'Unknown',
-                            time: news.publishedAt ?? '',
-                            tag: 'Trending',
-                          ),
+              SingleChildScrollView(
+                scrollDirection: Axis.horizontal,
+                child: Obx(
+                  () => newsController.isTrandingNewsLoading.value
+                      ? Row(
+                          children: [
+                            Trandingshimmercard(),
+                            Trandingshimmercard(),
+                          ],
                         )
-                        .toList(),
-                  ),
+                      : Row(
+                          children: newsController.trandingNewsList
+                              .map(
+                                (news) => TrandingCard(
+                                  ontap: () {
+                                    Get.to(() => NewDetailPage(news: news));
+                                  },
+                                  imageUrl: news.urlToImage ?? '',
+                                  title: news.title ?? 'No Title',
+                                  author: news.author ?? 'Unknown',
+                                  time: news.publishedAt ?? '',
+                                  tag: 'Trending',
+                                ),
+                              )
+                              .toList(),
+                        ),
                 ),
               ),
               SizedBox(height: 10),
@@ -116,18 +131,112 @@ class _HomePageState extends State<HomePage> {
               ),
               SizedBox(height: 20),
               Obx(
-                () => Column(
-                  children: newsController.newsForYouList
-                      .map(
-                        (news) => NewsTile(
-                          imageUrl: news.urlToImage ?? '',
-                          title: news.title ?? 'No Title',
-                          author: news.author ?? 'Unknown',
-                          time: news.publishedAt ?? '',
-                        ),
+                () => newsController.isNewsForYouLoading.value
+                    ? Column(
+                        children: [
+                          Newstileshimmercard(),
+                          Newstileshimmercard(),
+                          Newstileshimmercard(),
+                        ],
                       )
-                      .toList(),
-                ),
+                    : Column(
+                        children: newsController.newsForYou5
+                            .map(
+                              (news) => NewsTile(
+                                ontap: () {
+                                  Get.to(() => NewDetailPage(news: news));
+                                },
+                                imageUrl: news.urlToImage ?? '',
+                                title: news.title ?? 'No Title',
+                                author: news.author ?? 'Unknown',
+                                time: news.publishedAt ?? '',
+                              ),
+                            )
+                            .toList(),
+                      ),
+              ),
+              SizedBox(height: 20),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  Text(
+                    'Tesla News',
+                    style: Theme.of(context).textTheme.bodyLarge,
+                  ),
+                  Text(
+                    'See All',
+                    style: Theme.of(context).textTheme.labelSmall,
+                  ),
+                ],
+              ),
+              SizedBox(height: 20),
+              Obx(
+                () => newsController.isTeslaNewsLoading.value
+                    ? Column(
+                        children: [
+                          Newstileshimmercard(),
+                          Newstileshimmercard(),
+                          Newstileshimmercard(),
+                        ],
+                      )
+                    : Column(
+                        children: newsController.teslaNews5
+                            .map(
+                              (news) => NewsTile(
+                                ontap: () {
+                                  Get.to(() => NewDetailPage(news: news));
+                                },
+                                imageUrl: news.urlToImage ?? '',
+                                title: news.title ?? 'No Title',
+                                author: news.author ?? 'Unknown',
+                                time: news.publishedAt ?? '',
+                              ),
+                            )
+                            .toList(),
+                      ),
+              ),
+              SizedBox(height: 20),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  Text(
+                    'Wall Street News',
+                    style: Theme.of(context).textTheme.bodyLarge,
+                  ),
+                  Text(
+                    'See All',
+                    style: Theme.of(context).textTheme.labelSmall,
+                  ),
+                ],
+              ),
+              SizedBox(height: 20),
+              Obx(
+                () => newsController.isWallStreetLoading.value
+                    ? Row(
+                        children: [
+                          Trandingshimmercard(),
+                          Trandingshimmercard(),
+                        ],
+                      )
+                    : SingleChildScrollView(
+                        scrollDirection: Axis.horizontal,
+                        child: Row(
+                          children: newsController.wallStreetNews5
+                              .map(
+                                (news) => TrandingCard(
+                                  ontap: () {
+                                    Get.to(() => NewDetailPage(news: news));
+                                  },
+                                  imageUrl: news.urlToImage ?? '',
+                                  title: news.title ?? 'No Title',
+                                  author: news.author ?? 'Unknown',
+                                  time: news.publishedAt ?? '',
+                                  tag: 'Trending',
+                                ),
+                              )
+                              .toList(),
+                        ),
+                      ),
               ),
             ],
           ),

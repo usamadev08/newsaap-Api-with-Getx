@@ -82,6 +82,9 @@ class TrandingCard extends StatelessWidget {
                 CircleAvatar(
                   radius: 15,
                   backgroundColor: Theme.of(context).colorScheme.primary,
+                  child: Text(author[0],
+                      style:
+                          TextStyle(fontSize: 15, fontWeight: FontWeight.bold)),
                 ),
                 SizedBox(
                   width: 5,

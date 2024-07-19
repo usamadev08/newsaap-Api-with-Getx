@@ -1,8 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:news_app/model/news_model.dart';
 
 class NewDetailPage extends StatelessWidget {
-  const NewDetailPage({super.key});
+  final NewsModel news;
+
+  const NewDetailPage({super.key, required this.news});
 
   @override
   Widget build(BuildContext context) {
@@ -36,7 +39,6 @@ class NewDetailPage extends StatelessWidget {
                 height: 200,
                 decoration: BoxDecoration(
                   borderRadius: BorderRadius.circular(20),
-                  color: Colors.red,
                 ),
                 child: Row(
                   children: [
@@ -44,7 +46,8 @@ class NewDetailPage extends StatelessWidget {
                       child: ClipRRect(
                         borderRadius: BorderRadius.circular(20),
                         child: Image.network(
-                          'https://www.aljazeera.com/wp-content/uploads/2024/07/2024-07-13T094931Z_1875345524_RC29U8AYBZ46_RTRMADP_3_ISRAEL-PALESTINIANS-1720866711.jpg?resize=770%2C513&quality=80',
+                          news.urlToImage ??
+                              'https://www.google.com/url?sa=i&url=https%3A%2F%2Fin.pinterest.com%2Fpin%2Fno-data-found--168814686021923358%2F&psig=AOvVaw2Kp-nrowKWLyAFTVj9_QLe&ust=1721405261216000&source=images&cd=vfe&opi=89978449&ved=2ahUKEwi-spK6_LCHAxXL6rsIHTBNDb4QjRx6BAgAEBU',
                           fit: BoxFit.cover,
                         ),
                       ),
@@ -56,7 +59,7 @@ class NewDetailPage extends StatelessWidget {
                 height: 20,
               ),
               Text(
-                'At least 90 killed in Israeli attack on al-Mawasi ‘safe zone’ in south Gaza',
+                news.title ?? 'No Title',
                 style: Theme.of(context).textTheme.headlineLarge,
               ),
               SizedBox(
@@ -65,7 +68,7 @@ class NewDetailPage extends StatelessWidget {
               Row(
                 children: [
                   Text(
-                    '2 day ago * Tech',
+                    '  ${news.author ?? ''} | ${news.publishedAt ?? ''} ',
                     style: Theme.of(context).textTheme.labelSmall,
                   )
                 ],
@@ -78,11 +81,14 @@ class NewDetailPage extends StatelessWidget {
                   CircleAvatar(
                     radius: 15,
                     backgroundColor: Colors.blue,
+                    child: Text(news.author![0],
+                        style: TextStyle(
+                            fontSize: 15, fontWeight: FontWeight.bold)),
                   ),
                   SizedBox(
                     width: 10,
                   ),
-                  Text('Raheem Yar',
+                  Text(news.author ?? 'Unknown',
                       style: TextStyle(
                         fontSize: 18,
                         color: Theme.of(context).colorScheme.secondaryContainer,
@@ -95,10 +101,9 @@ class NewDetailPage extends StatelessWidget {
               Row(
                 children: [
                   Flexible(
-                    child: Text(
-                        'The attack by Israeli warplanes targeted tents housing displaced Palestinians and a water distillation unit in an area that a Gaza civil defence spokesperson told Al Jazeera was designated a “safe zone” by the Israeli military Images from the scene showed Palestinians trying to rescue people from under the rubble, with children and paramedics among the wounded.',
+                    child: Text(news.content ?? 'No Content Available',
                         style: TextStyle(
-                          fontSize: 18,
+                          fontSize: 16,
                           color:
                               Theme.of(context).colorScheme.secondaryContainer,
                         )),

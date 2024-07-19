@@ -19,7 +19,7 @@ class MyBottomNav extends StatelessWidget {
             height: 60,
             decoration: BoxDecoration(
                 borderRadius: BorderRadius.circular(100),
-                color: Theme.of(context).colorScheme.primaryContainer),
+                color: Color.fromARGB(255, 233, 236, 249)),
             child: Container(
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -35,7 +35,7 @@ class MyBottomNav extends StatelessWidget {
                           padding: EdgeInsets.all(5),
                           decoration: BoxDecoration(
                             color: controller.index.value == 0
-                                ? Theme.of(context).colorScheme.primary
+                                ? Color.fromARGB(255, 0, 170, 255)
                                 : null,
                             borderRadius: BorderRadius.circular(100),
                           ),
@@ -43,7 +43,7 @@ class MyBottomNav extends StatelessWidget {
                             child: Icon(
                               Icons.home,
                               color: controller.index.value == 0
-                                  ? Theme.of(context).colorScheme.primary
+                                  ? Color(0xffFFFFFF)
                                   : Theme.of(context)
                                       .colorScheme
                                       .secondaryContainer,
@@ -63,7 +63,7 @@ class MyBottomNav extends StatelessWidget {
                         padding: EdgeInsets.all(5),
                         decoration: BoxDecoration(
                           color: controller.index.value == 1
-                              ? Theme.of(context).colorScheme.primary
+                              ? Color.fromARGB(255, 0, 170, 255)
                               : null,
                           borderRadius: BorderRadius.circular(100),
                         ),
@@ -71,7 +71,7 @@ class MyBottomNav extends StatelessWidget {
                           child: Icon(
                             Icons.book,
                             color: controller.index.value == 1
-                                ? Theme.of(context).colorScheme.primary
+                                ? Color(0xffFFFFFF)
                                 : Theme.of(context)
                                     .colorScheme
                                     .secondaryContainer,
@@ -92,7 +92,7 @@ class MyBottomNav extends StatelessWidget {
                         padding: EdgeInsets.all(5),
                         decoration: BoxDecoration(
                           color: controller.index.value == 2
-                              ? Theme.of(context).colorScheme.primary
+                              ? Color.fromARGB(255, 0, 170, 255)
                               : null,
                           borderRadius: BorderRadius.circular(100),
                         ),
@@ -100,7 +100,7 @@ class MyBottomNav extends StatelessWidget {
                           child: Icon(
                             Icons.settings,
                             color: controller.index.value == 2
-                                ? Theme.of(context).colorScheme.primary
+                                ? Color(0xffFFFFFF)
                                 : Theme.of(context)
                                     .colorScheme
                                     .secondaryContainer,
